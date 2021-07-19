@@ -1,0 +1,31 @@
+function printNamaste() {
+  console.log("Hello");
+}
+
+setTimeout(printHello, 100);
+console.log("Me First!");
+
+In the Browser, when javascript starts to execute, we store variables in Global Memory.
+At line #1 we are storing function definition but not actually a function,at line number 5 we are making a call to
+browser timer API and starting a timer of 1000ms, post executing this line the control is now moved to line #6,
+we again call the browser api for it and print the message in the window.
+The execution is done by javascript, there is nothing in the Call stack, not even setTimeout function, as this is
+a Browser feature we call it, and remove it from call stack, and we are done.
+
+After 1000ms the browser begins to calls printHello, but before actually calling printHello, the browser checks if the
+call stack is empty, only then the function call to printHello will be pushed to call stack.
+
+Introducing Callback Queue and Event Loop
+
+Callback Queue: As soon as browser finishes its job, if any callback functions are there, only the callback reference is pushed to 
+Callback Queue but not the Callback itself. Ex: Browser finishes its API call and the reference to the callback is pushed to call back queue,
+but before the callback reference is going to callstack, it will wait until someone(Event Loop) takes it, pushes onto call stack.
+Event Loop: Event loop is a feature which constantly looks into the callstack if it is empty or not, it is also responsible for
+putting the callback references from callback queue into the stack, only once the call stack is empty. EventLoop is a kind of gateway, which 
+continously monitors callstack.
+
+FAQs
+Question: Are only asynchronous web api callbacks are registered in web api environment?
+Answer: YES, the synchronous callback functions like what we pass inside map, filter and reduce aren't registered in the Web API
+environment. It's just those async callback functions which go through all this.
+
